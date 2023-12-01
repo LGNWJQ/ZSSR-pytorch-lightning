@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-
+# 采用ResNet替代原有的卷积层
 class ZSSR_RES(nn.Module):
     def __init__(self, in_channels=3, channels=64, num_layer=4):
         super().__init__()
