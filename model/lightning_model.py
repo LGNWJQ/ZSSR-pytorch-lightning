@@ -7,6 +7,7 @@ from torchvision.utils import save_image
 import os
 
 from .resnet_model import ZSSR_RES
+from  .model import ZSSR_Net
 
 
 class ZSSR_lightning(pl.LightningModule):
@@ -19,7 +20,6 @@ class ZSSR_lightning(pl.LightningModule):
         self.lr = config.lr
 
         self.val_sr_path = os.path.join('./SR_Result/', config.exp_name)
-        self.val_save_frequence = config.save_frequence
         if not os.path.exists(self.val_sr_path):
             os.makedirs(self.val_sr_path)
         # 其他
@@ -47,8 +47,8 @@ class ZSSR_lightning(pl.LightningModule):
         tensorboard = self.logger.experiment
         tensorboard.add_image('LR', LR[0], global_step=0)
         tensorboard.add_image('r_HR', r_HR[0], global_step=self.global_step)
-        if self.global_step % self.val_save_frequence == 0:
-            save_image(r_HR, os.path.join(self.val_sr_path, f'step{self.global_step}.png'))
+
+        save_image(r_HR, os.path.join(self.val_sr_path, f'step{self.global_step}.png'))
 
     def configure_optimizers(self):
         scheduler = lr_scheduler.CosineAnnealingLR(
