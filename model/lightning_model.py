@@ -33,7 +33,7 @@ class ZSSR_lightning(pl.LightningModule):
         HR, LR = batch
         HR, LR = HR[0], LR[0]
 
-        r_HR = self.model(HR)
+        r_HR = self.model(LR)
         loss = F.l1_loss(r_HR, HR)
 
         self.log("loss", loss.item(), prog_bar=True)
